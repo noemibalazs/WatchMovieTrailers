@@ -101,17 +101,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String orderBy = sharedPreferences.getString(getString(R.string.order_by_label_key),
                 getString(R.string.order_by_label_popularity_value));
 
-        String year = sharedPreferences.getString(getString(R.string.search_movies_label_key),
-                                                  getString(R.string.search_movies_label_value));
 
-        link = "https://api.themoviedb.org/3/discover/movie?";
+        link = "https://api.themoviedb.org/3/movie/";
 
         Uri uri = Uri.parse(link);
         Uri.Builder builder = uri.buildUpon();
 
+        builder.appendPath(orderBy);
         builder.appendQueryParameter("api_key", "your_key");
-        builder.appendQueryParameter("sort_by", orderBy);
-        builder.appendQueryParameter("year", year);
 
         return new MovieLoader(this, builder.toString());
     }
@@ -149,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getString(R.string.order_by_label_key)) || key.equals(getString(R.string.search_movies_label_key))){
+        if (key.equals(getString(R.string.order_by_label_key))){
             mAdapter.clear();
             mProgressBar.setVisibility(View.VISIBLE);
             getLoaderManager().restartLoader(LOADER_ID, null, this);

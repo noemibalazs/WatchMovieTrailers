@@ -19,6 +19,6 @@
     <string name="order_by_label_popularity" translatable="false">Popularity</string>
     <string name="order_by_label_top_rated" translatable="false">Top Rated</string>
 
-    <string name="order_by_label_popularity_value" translatable="false">popularity.desc</string>
-    <string name="order_by_label_top_rated_value" translatable="false">vote_average.desc</string>
+    <string name="order_by_label_popularity_value" translatable="false">popular</string>
+    <string name="order_by_label_top_rated_value" translatable="false">top_rated</string>
 </resources>

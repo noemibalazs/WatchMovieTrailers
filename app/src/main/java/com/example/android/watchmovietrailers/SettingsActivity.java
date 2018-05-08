@@ -29,8 +29,6 @@ public class SettingsActivity extends AppCompatActivity {
             Preference orderBy = findPreference(getString(R.string.order_by_label_key));
             bindPreferenceSummaryToValue(orderBy);
 
-            Preference year = findPreference(getString(R.string.search_movies_label_key));
-            bindPreferenceSummaryToValue(year);
 
         }
 
