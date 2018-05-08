@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:title="@string/order_by_label"
+        android:key="@string/order_by_label_key"
+        android:entries="@array/list_order_by_label"
+        android:entryValues="@array/list_order_by_label_values"
+        android:defaultValue="@string/order_by_label_popularity_value"/>
+
+    <EditTextPreference
+        android:title="@string/search_movies_label"
+        android:key="@string/search_movies_label_key"
+        android:defaultValue="@string/search_movies_label_value"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        />
+
+</PreferenceScreen>
