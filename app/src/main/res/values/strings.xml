@@ -9,6 +9,13 @@
     <string name="setting_menu">Settings</string>
     <string name="search_settings">Search Settings</string>
 
+    <string name="detail_review">Reviews</string>
+    <string name="detail_summary">Summary</string>
+    <string name="author">Author</string>
+    <string name="comments">Comments</string>
+    <string name="detail_trailers">Trailers</string>
+    <string name="take_a_look">Sneak peak</string>
+
     <string name="search_movies_label" translatable="false">Search movies after year</string>
     <string name="search_movies_label_key" translatable="false">search</string>
     <string name="search_movies_label_value" translatable="false">2018</string>

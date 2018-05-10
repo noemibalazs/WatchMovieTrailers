@@ -31,6 +31,8 @@ public class QueryUtils {
     private static final String MOVIE_POSTER_PATH = "poster_path";
     private static final String MOVIE_OVERVIEW = "overview";
     private static final String MOVIE_RELEASE_DATE = "release_date";
+    private static final String MOVIE_ID = "id";
+
 
     private static final String POSTER_URL = "https://image.tmdb.org/t/p/w185";
 
@@ -130,7 +132,9 @@ public class QueryUtils {
                 String overview = jsonObject.getString(MOVIE_OVERVIEW);
                 String releaseDate = jsonObject.getString(MOVIE_RELEASE_DATE);
 
-                Movie movie = new Movie(title, poster, overview, voteAverage, releaseDate);
+                int id = jsonObject.getInt(MOVIE_ID);
+
+                Movie movie = new Movie(title, poster, overview, voteAverage, releaseDate, id);
                 movieList.add(movie);
             }
 
@@ -141,5 +145,6 @@ public class QueryUtils {
         return movieList;
 
     }
+
 }
 

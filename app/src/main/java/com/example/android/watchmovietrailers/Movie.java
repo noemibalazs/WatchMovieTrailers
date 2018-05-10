@@ -10,13 +10,15 @@ public class Movie implements Parcelable{
     private String mOverview;
     private String mUserRating;
     private String mReleaseDate;
+    private int mId;
 
-    public Movie(String originalTitle, String imageThumbnail, String overView,  String userRating, String releaseDate){
+    public Movie(String originalTitle, String imageThumbnail, String overView,  String userRating, String releaseDate, int id){
         mOriginalTitle = originalTitle;
         mImageThumbnail = imageThumbnail;
         mOverview = overView;
         mUserRating = userRating;
         mReleaseDate = releaseDate;
+        mId = id;
     }
 
 
@@ -40,6 +42,10 @@ public class Movie implements Parcelable{
         return mReleaseDate;
     }
 
+    public int getId(){
+        return  mId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -53,6 +59,7 @@ public class Movie implements Parcelable{
         dest.writeString(mOverview);
         dest.writeString(mUserRating);
         dest.writeString(mReleaseDate);
+        dest.writeInt(mId);
 
     }
 
@@ -62,6 +69,7 @@ public class Movie implements Parcelable{
         mImageThumbnail = in.readString();
         mUserRating = in.readString();
         mReleaseDate = in.readString();
+        mId = in.readInt();
     }
 
 

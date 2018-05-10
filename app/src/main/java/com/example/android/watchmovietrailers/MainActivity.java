@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String overview = movie.getMovieOverview();
                 String date = movie.getReleaseDate();
                 String image = movie.getPosterImage();
+                int idImage = movie.getId();
 
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra("Title", title);
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 intent.putExtra("Release", date);
                 intent.putExtra("Rate", rate);
                 intent.putExtra("Image", image);
+                intent.putExtra("ID", idImage);
                 startActivity(intent);
             }
         });

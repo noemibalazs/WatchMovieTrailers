@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.content.AsyncTaskLoader;
 
 import com.example.android.watchmovietrailers.utils.QueryUtils;
-
 import java.util.List;
 
 public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
