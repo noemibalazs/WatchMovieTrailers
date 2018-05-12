@@ -29,6 +29,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private TrailerAdapter mTrailerAdapter;
     private ListView mTrailerView;
 
+    private DetailAdapter mAdapter;
+
     private static final int REVIEW_LOADER = 7;
     private static final int TRAILER_LOADER = 12;
 
@@ -45,12 +47,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mImage = findViewById(R.id.iv_detail_image);
 
         mListView = findViewById(R.id.ll_list);
-        mReviewAdapter = new ReviewAdapter(this, new ArrayList<Review>());
-        mListView.setAdapter(mReviewAdapter);
+        mAdapter = new DetailAdapter(this, new ArrayList<Review>());
+        mListView.setAdapter(mAdapter);
 
         mTrailerView = findViewById(R.id.ll_trailer);
-        mTrailerAdapter = new TrailerAdapter(this, new ArrayList<Trailer>());
-        mTrailerView.setAdapter(mTrailerAdapter);
+        mAdapter = new DetailAdapter(this, new ArrayList<Trailer>());
+        mTrailerView.setAdapter(mAdapter);
+
 
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(REVIEW_LOADER, null, this);
@@ -76,7 +79,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
 
@@ -89,7 +91,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                 .appendPath("reviews")
-                .appendQueryParameter("api_key", "your_key");
+                .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
 
         return new ReviewLoader(this, builder.toString());
 
@@ -104,7 +106,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                     .appendPath("videos")
-                    .appendQueryParameter("api_key", "your_key");
+                    .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
 
             return new TrailerLoader(this, builder.toString());
 
@@ -119,34 +121,33 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         int id = loader.getId();
 
         if (id == REVIEW_LOADER){
-           mReviewAdapter.clear();
+           mAdapter.clear();
            List<Review> reviews = (List<Review>)data;
-           if (reviews!=null && reviews.size()>0){
-               mReviewAdapter.addAll(reviews);
+           if (reviews!=null && !reviews.isEmpty()){
+               mAdapter.addAll(reviews);
            } else {
               Toast.makeText(this, "Sorry, no reviews", Toast.LENGTH_SHORT).show();
            }
         }
 
         else if (id == TRAILER_LOADER){
-            mTrailerAdapter.clear();
+            mAdapter.clear();
             List<Trailer> trailers = (List<Trailer>) data;
-            if (trailers!=null && trailers.size()>0){
-                mTrailerAdapter.addAll(trailers);
+            if (trailers!=null && !trailers.isEmpty()){
+                mAdapter.addAll(trailers);
             } else {
                 Toast.makeText(this, "Sorry, no trailers", Toast.LENGTH_SHORT).show();
             }
         }
 
-
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
-        mReviewAdapter.clear();
-        mTrailerAdapter.clear();
+        mAdapter.clear();
 
     }
 
 
 }
+

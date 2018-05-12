@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri.Builder builder = uri.buildUpon();
 
         builder.appendPath(orderBy);
-        builder.appendQueryParameter("api_key", "your_key");
+        builder.appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
 
         return new MovieLoader(this, builder.toString());
     }

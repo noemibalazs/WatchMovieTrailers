@@ -1,6 +1,5 @@
 package com.example.android.watchmovietrailers;
 
-import android.print.PrinterId;
 
 public class Review {
 

@@ -49,4 +49,6 @@ public class TrailerAdapter extends ArrayAdapter<Trailer> {
 
         return listView;
     }
+
+
 }
