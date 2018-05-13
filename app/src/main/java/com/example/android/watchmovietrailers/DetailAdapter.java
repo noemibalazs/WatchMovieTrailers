@@ -15,12 +15,15 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DetailAdapter extends ArrayAdapter {
+public class DetailAdapter extends ArrayAdapter<MovieInfo> {
 
-    public DetailAdapter (Context context, ArrayList objects){
+    public DetailAdapter(Context context, ArrayList<MovieInfo> objects) {
         super(context, 0, objects);
     }
+
+    MovieInfo mMovieInfo;
 
     private static final int MOVIE_TYPE = 0;
     private static final int TRAILER_TYPE = 1;
@@ -28,9 +31,14 @@ public class DetailAdapter extends ArrayAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0){ return MOVIE_TYPE;}
-        else if (position == 1) {return TRAILER_TYPE;}
-        else {return REVIEW_TYPE;}
+        if (position == 0) {
+            return MOVIE_TYPE;
+        } else if (position < 1 + mMovieInfo.getTrailers().size()) {
+            return TRAILER_TYPE;
+        } else if (position >= 1 + mMovieInfo.getTrailers().size()) {
+            return REVIEW_TYPE;
+        } else
+            return -1;
     }
 
     @Override
@@ -43,59 +51,43 @@ public class DetailAdapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         int viewType = getItemViewType(position);
-        switch (viewType){
+        switch (viewType) {
             case MOVIE_TYPE:
                 MovieViewHolder movieViewHolder = null;
-                Movie movie = (Movie)getItem(position);
-                if(convertView == null){
+                if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_detail, null);
                     movieViewHolder = new MovieViewHolder(convertView);
                     convertView.setTag(movieViewHolder);
                 } else
-                    movieViewHolder = (MovieViewHolder)convertView.getTag();
-                    movieViewHolder.mTitle.setText(movie.getOriginalTitle());
-                    movieViewHolder.mDescription.setText(movie.getMovieOverview());
-                    movieViewHolder.mReleaseDate.setText(movie.getReleaseDate());
-                    movieViewHolder.mUserRate.setText(movie.getUserRating());
-                    Picasso.with(getContext()).load(movie.getPosterImage()).into(movieViewHolder.mImage);
+                    movieViewHolder = (MovieViewHolder) convertView.getTag();
+                    movieViewHolder.bindMovieDetail(mMovieInfo);
 
-                    break;
+                break;
 
             case TRAILER_TYPE:
                 TrailerViewHolder trailerViewHolder = null;
-                final Trailer trailer = (Trailer) getItem(position);
-                if (convertView == null){
+                if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_trailer, null);
                     trailerViewHolder = new TrailerViewHolder(convertView);
                     convertView.setTag(trailerViewHolder);
                 } else
                     trailerViewHolder = (TrailerViewHolder) convertView.getTag();
-                    trailerViewHolder.mSneak.setText("Sneak Peak");
-                    trailerViewHolder.mImageArrow.setImageResource(R.drawable.play);
-                    trailerViewHolder.mImageArrow.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse(trailer.getTrailerImage()));
-                            getContext().startActivity(intent);
-                        }
-                    });
+                     trailerViewHolder.bindTrailerData(mMovieInfo.getTrailers().get(TRAILER_TYPE));
 
-                    break;
+                break;
 
 
             case REVIEW_TYPE:
                 ReviewViewHolder reviewViewHolder = null;
-                final Review review = (Review)getItem(position);
-                if (convertView == null){
+                if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_review, null);
                     reviewViewHolder = new ReviewViewHolder(convertView);
                     convertView.setTag(reviewViewHolder);
                 } else
-                    reviewViewHolder.mAuthor.setText(review.getAuthor());
-                    reviewViewHolder.mComment.setText(review.getComments());
+                    reviewViewHolder = (ReviewViewHolder) convertView.getTag();
+                    reviewViewHolder.bindReviewData(mMovieInfo.getReviews().get(REVIEW_TYPE));
 
-                    break;
+                break;
         }
         return convertView;
     }
@@ -108,26 +100,44 @@ public class DetailAdapter extends ArrayAdapter {
         TextView mUserRate;
         ImageView mImage;
 
-        public MovieViewHolder (View view){
+        public MovieViewHolder(View view) {
             mTitle = view.findViewById(R.id.tv_title);
             mDescription = view.findViewById(R.id.tv_detail_description);
             mReleaseDate = view.findViewById(R.id.tv_detail_release_date);
             mUserRate = view.findViewById(R.id.tv_detail_user_rating);
             mImage = view.findViewById(R.id.iv_detail_image);
         }
-    }
 
+        public void bindMovieDetail(MovieInfo movieInfo){
+            mTitle.setText(movieInfo.getMovieTitle());
+            mDescription.setText(movieInfo.getMovieDescription());
+            mReleaseDate.setText(movieInfo.getMovieReleaseDate());
+            mUserRate.setText(movieInfo.getRate());
+            Picasso.with(getContext()).load(movieInfo.getMovieImage()).into(mImage);
+
+        }
+    }
 
 
     class TrailerViewHolder {
 
-        TextView mSneak;
         ImageView mImageArrow;
 
         public TrailerViewHolder(View view) {
-            mSneak = view.findViewById(R.id.text);
             mImageArrow = view.findViewById(R.id.image_play);
 
+        }
+
+        public void bindTrailerData(final Trailer trailer){
+            mImageArrow.setImageResource(R.drawable.play);
+            mImageArrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(trailer.getTrailerImage()));
+                    getContext().startActivity(intent);
+                }
+            });
         }
 
     }
@@ -137,10 +147,17 @@ public class DetailAdapter extends ArrayAdapter {
         TextView mAuthor;
         TextView mComment;
 
-        public ReviewViewHolder(View view){
+        public ReviewViewHolder(View view) {
             mAuthor = view.findViewById(R.id.tv_author);
             mComment = view.findViewById(R.id.tv_comment);
         }
+
+        public void bindReviewData(Review review){
+            mAuthor.setText(review.getAuthor());
+            mComment.setText(review.getComments());
+        }
+
+
     }
 
 }

@@ -47,11 +47,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mImage = findViewById(R.id.iv_detail_image);
 
         mListView = findViewById(R.id.ll_list);
-        mAdapter = new DetailAdapter(this, new ArrayList<Review>());
+        mAdapter = new DetailAdapter(this, new ArrayList<MovieInfo>());
         mListView.setAdapter(mAdapter);
 
         mTrailerView = findViewById(R.id.ll_trailer);
-        mAdapter = new DetailAdapter(this, new ArrayList<Trailer>());
+        mAdapter = new DetailAdapter(this, new ArrayList<MovieInfo>());
         mTrailerView.setAdapter(mAdapter);
 
 
@@ -82,7 +82,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
 
-        if (id ==REVIEW_LOADER){
+        if (id == REVIEW_LOADER){
 
         link = "https://api.themoviedb.org/3/movie/";
 
@@ -97,7 +97,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         }
 
-        else if (id ==TRAILER_LOADER){
+        else if (id == TRAILER_LOADER){
 
             link = "https://api.themoviedb.org/3/movie/";
 
@@ -124,7 +124,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
            mAdapter.clear();
            List<Review> reviews = (List<Review>)data;
            if (reviews!=null && !reviews.isEmpty()){
-               mAdapter.addAll(reviews);
+               mAdapter.addAll((MovieInfo) reviews);
            } else {
               Toast.makeText(this, "Sorry, no reviews", Toast.LENGTH_SHORT).show();
            }
@@ -134,7 +134,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             mAdapter.clear();
             List<Trailer> trailers = (List<Trailer>) data;
             if (trailers!=null && !trailers.isEmpty()){
-                mAdapter.addAll(trailers);
+                mAdapter.addAll((MovieInfo) trailers);
             } else {
                 Toast.makeText(this, "Sorry, no trailers", Toast.LENGTH_SHORT).show();
             }
