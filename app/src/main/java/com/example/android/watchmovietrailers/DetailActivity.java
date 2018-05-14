@@ -6,6 +6,8 @@ import android.content.Loader;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,13 +25,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private TextView mReleaseDate;
     private TextView mUserRate;
     private ImageView mImage;
-    private ListView mListView;
-    private ReviewAdapter mReviewAdapter;
-    private String link;
-    private TrailerAdapter mTrailerAdapter;
-    private ListView mTrailerView;
 
-    private DetailAdapter mAdapter;
+    private String link;
+
+    private RecyclerView mReviewRecycle;
+    private ReviewRecAdapter mReviewAdapter;
+
+    private RecyclerView mTrailerRecycler;
+    private TrailerRecAdapter mTrailerAdapter;
 
     private static final int REVIEW_LOADER = 7;
     private static final int TRAILER_LOADER = 12;
@@ -41,25 +44,33 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_detail);
 
         mTitle = findViewById(R.id.tv_title);
-        mUserRate = findViewById(R.id.tv_detail_user_rating);
-        mReleaseDate = findViewById(R.id.tv_detail_release_date);
         mOverview = findViewById(R.id.tv_detail_description);
+        mReleaseDate = findViewById(R.id.tv_detail_release_date);
+        mUserRate = findViewById(R.id.tv_detail_user_rating);
         mImage = findViewById(R.id.iv_detail_image);
-
-        mListView = findViewById(R.id.ll_list);
-        mAdapter = new DetailAdapter(this, new ArrayList<MovieInfo>());
-        mListView.setAdapter(mAdapter);
-
-        mTrailerView = findViewById(R.id.ll_trailer);
-        mAdapter = new DetailAdapter(this, new ArrayList<MovieInfo>());
-        mTrailerView.setAdapter(mAdapter);
-
 
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(REVIEW_LOADER, null, this);
 
         LoaderManager manager = getLoaderManager();
         manager.initLoader(TRAILER_LOADER, null, this);
+
+        mReviewRecycle = findViewById(R.id.recycle_review);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mReviewRecycle.setLayoutManager(layoutManager);
+        mReviewRecycle.setHasFixedSize(true);
+
+        mReviewAdapter = new ReviewRecAdapter(this);
+        mReviewRecycle.setAdapter(mReviewAdapter);
+
+        mTrailerRecycler = findViewById(R.id.recycle_trailer);
+        LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mTrailerRecycler.setLayoutManager(layout);
+        mTrailerRecycler.setHasFixedSize(true);
+
+        mTrailerAdapter = new TrailerRecAdapter(this);
+        mTrailerRecycler.setAdapter(mTrailerAdapter);
+
 
 
         Intent intent = getIntent();
@@ -69,13 +80,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         mTitle.setText(intent.getExtras().getString("Title"));
-        mReleaseDate.setText(intent.getExtras().getString("Release"));
-        mUserRate.setText(intent.getExtras().getString("Rate") + " / 10");
-        mOverview.setText(intent.getExtras().getString("Overview"));
+        mOverview.setText(intent.getExtras().getString("Description"));
+        mReleaseDate.setText(intent.getExtras().getString("Date"));
+        mUserRate.setText(intent.getExtras().getString("Rate"));
 
-        Picasso.with(this).
-                load(intent.getExtras().getString("Image"))
-                .into(mImage);
+        Picasso.with(this).load(intent.getExtras().getString("Image")).into(mImage);
+
 
     }
 
@@ -121,20 +131,18 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         int id = loader.getId();
 
         if (id == REVIEW_LOADER){
-           mAdapter.clear();
            List<Review> reviews = (List<Review>)data;
            if (reviews!=null && !reviews.isEmpty()){
-               mAdapter.addAll((MovieInfo) reviews);
+              mReviewAdapter.bindReviewList(reviews);
            } else {
               Toast.makeText(this, "Sorry, no reviews", Toast.LENGTH_SHORT).show();
            }
         }
 
         else if (id == TRAILER_LOADER){
-            mAdapter.clear();
             List<Trailer> trailers = (List<Trailer>) data;
             if (trailers!=null && !trailers.isEmpty()){
-                mAdapter.addAll((MovieInfo) trailers);
+                mTrailerAdapter.bindTrailerList(trailers);
             } else {
                 Toast.makeText(this, "Sorry, no trailers", Toast.LENGTH_SHORT).show();
             }
@@ -144,8 +152,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoaderReset(Loader loader) {
-        mAdapter.clear();
-
+        int id = loader.getId();
+        if (id == TRAILER_LOADER){
+        mTrailerAdapter.bindTrailerList(null);}
+        else if (id == REVIEW_LOADER){
+        mReviewAdapter.bindReviewList(null);}
     }
 
 

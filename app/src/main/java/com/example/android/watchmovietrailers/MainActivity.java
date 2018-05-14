@@ -46,21 +46,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Movie movie = mAdapter.getItem(position);
-
                 String title = movie.getOriginalTitle();
-                String rate = movie.getUserRating();
-                String overview = movie.getMovieOverview();
-                String date = movie.getReleaseDate();
+                String description = movie.getMovieOverview();
+                String userRate = movie.getUserRating();
+                String releaseDate = movie.getReleaseDate();
                 String image = movie.getPosterImage();
-                int idImage = movie.getId();
+                int idMovie = movie.getId();
 
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra("Title", title);
-                intent.putExtra("Overview", overview);
-                intent.putExtra("Release", date);
-                intent.putExtra("Rate", rate);
+                intent.putExtra("Description", description);
+                intent.putExtra("Rate", userRate);
+                intent.putExtra("Date", releaseDate);
                 intent.putExtra("Image", image);
-                intent.putExtra("ID", idImage);
+                intent.putExtra("ID", idMovie);
                 startActivity(intent);
             }
         });

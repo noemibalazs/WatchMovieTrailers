@@ -117,6 +117,7 @@ public class QueryReviews {
             JSONArray resultArray = root.getJSONArray(REVIEW_RESULTS);
 
             for (int i=0; i<resultArray.length(); i++){
+
                 JSONObject insideObject = resultArray.getJSONObject(i);
                 String author = insideObject.getString(REVIEW_AUTHOR);
                 String comment = insideObject.getString(REVIEW_CONTENT);
