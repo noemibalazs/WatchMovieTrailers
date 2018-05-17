@@ -2,12 +2,15 @@
     <string name="app_name">Watch Movie Trailers</string>
     <string name="show">show</string>
     <string name="detail_label">Movie Details</string>
+    <string name="favorite_label">Favorite Movies</string>
     <string name="title">Miss Sloane</string>
     <string name="release_date">2016</string>
     <string name="overview">In the high-stakes world of political power-brokers, Elizabeth Sloane is the most sought after and formidable lobbyist in D.C. But when taking on the most powerful opponent of her career, she finds winning may come at too high a price.</string>
     <string name="user_rating">7.5 / 10</string>
     <string name="setting_menu">Settings</string>
     <string name="search_settings">Search Settings</string>
+    <string name="heart_picked_up">Movie added to favorites</string>
+    <string name="heart_dismiss">Movie removed from favorites</string>
 
     <string name="detail_review">Reviews</string>
     <string name="detail_summary">Summary</string>

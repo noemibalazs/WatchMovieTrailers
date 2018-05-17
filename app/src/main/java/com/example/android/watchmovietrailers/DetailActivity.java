@@ -1,6 +1,8 @@
 package com.example.android.watchmovietrailers;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.Uri;
@@ -8,11 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.watchmovietrailers.data.MovieContract;
+import com.example.android.watchmovietrailers.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,6 +29,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private TextView mReleaseDate;
     private TextView mUserRate;
     private ImageView mImage;
+    private ImageView mHeart;
+    private boolean click = true;
 
     private String link;
 
@@ -71,9 +77,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mTrailerAdapter = new TrailerRecAdapter(this);
         mTrailerRecycler.setAdapter(mTrailerAdapter);
 
-
-
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         if (intent == null){
             finish();
             Toast.makeText(this, "Error getting details", Toast.LENGTH_LONG).show();
@@ -82,12 +86,42 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mTitle.setText(intent.getExtras().getString("Title"));
         mOverview.setText(intent.getExtras().getString("Description"));
         mReleaseDate.setText(intent.getExtras().getString("Date"));
-        mUserRate.setText(intent.getExtras().getString("Rate"));
+        mUserRate.setText(intent.getExtras().getString("Rate") + "/10");
 
         Picasso.with(this).load(intent.getExtras().getString("Image")).into(mImage);
 
+        mHeart = findViewById(R.id.image_heart);
+        mHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (click){
+                    mHeart.setImageResource(R.drawable.green);
+                    Toast.makeText(DetailActivity.this, "Favorite", Toast.LENGTH_SHORT).show();
+                    click = false;
+
+                    ContentValues values = new ContentValues();
+                    values.put(MovieEntry.MOVIE_TITLE, intent.getExtras().getString("Title"));
+                    values.put(MovieEntry.MOVIE_DESCRIPTION,intent.getExtras().getString("Description") );
+                    values.put(MovieEntry.MOVIE_USER_RATE,intent.getExtras().getString("Rate") + "/10" );
+                    values.put(MovieEntry.MOVIE_RELEASE_DATE,intent.getExtras().getString("Date") );
+                    values.put(MovieEntry.MOVIE_IMAGE, intent.getExtras().getString("Image"));
+                    values.put(MovieEntry.MOVIE_ID, intent.getExtras().getString("ID"));
+
+                    getContentResolver().insert(MovieEntry.CONTENT_URI, values);
+
+                } else {
+                    mHeart.setImageResource(R.drawable.black);
+                    Toast.makeText(DetailActivity.this, "Dismiss", Toast.LENGTH_SHORT).show();
+                    click = true;
+
+                    getContentResolver().delete(ContentUris.withAppendedId(MovieEntry.CONTENT_URI, intent.getExtras().getInt("ID")), null, null);
+                }
+            }
+        });
+
 
     }
+
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
@@ -101,7 +135,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                 .appendPath("reviews")
-                .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
+                .appendQueryParameter("api_key", "key");
 
         return new ReviewLoader(this, builder.toString());
 
@@ -116,7 +150,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                     .appendPath("videos")
-                    .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
+                    .appendQueryParameter("api_key", "key");
 
             return new TrailerLoader(this, builder.toString());
 
@@ -153,10 +187,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoaderReset(Loader loader) {
         int id = loader.getId();
-        if (id == TRAILER_LOADER){
-        mTrailerAdapter.bindTrailerList(null);}
-        else if (id == REVIEW_LOADER){
-        mReviewAdapter.bindReviewList(null);}
+
+         if (id == REVIEW_LOADER){
+            mReviewAdapter.bindReviewList(null);}
+         else if (id == TRAILER_LOADER){
+            mTrailerAdapter.bindTrailerList(null);}
+
     }
 
 

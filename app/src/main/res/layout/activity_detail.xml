@@ -64,6 +64,15 @@
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:id="@+id/image_heart"
+                    android:src="@drawable/green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/show"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp" />
+
 
             </LinearLayout>
 

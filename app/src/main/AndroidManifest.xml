@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".DetailActivity"
             android:label="@string/detail_label"
@@ -27,12 +28,28 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.watchmovietrailers.MainActivity" />
         </activity>
-        <activity android:name=".SettingsActivity"
+
+        <activity
+            android:name=".SettingsActivity"
             android:label="@string/search_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.watchmovietrailers.MainActivity" />
         </activity>
+
+        <activity android:name=".FavoriteActivity"
+            android:label="@string/favorite_label"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.watchmovietrailers.MainActivity" />
+        </activity>
+
+        <provider
+            android:authorities="com.example.android.watchmovietrailers"
+            android:name=".data.MovieProvider"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

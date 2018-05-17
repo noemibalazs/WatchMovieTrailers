@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (id == R.id.settings_menu){
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
+        } else if (id == R.id.favorite_menu){
+            Intent intent = new Intent(MainActivity.this, FavoriteActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri.Builder builder = uri.buildUpon();
 
         builder.appendPath(orderBy);
-        builder.appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
+        builder.appendQueryParameter("api_key", "key");
 
         return new MovieLoader(this, builder.toString());
     }
