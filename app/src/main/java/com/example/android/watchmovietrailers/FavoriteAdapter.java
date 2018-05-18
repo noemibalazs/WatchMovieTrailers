@@ -19,13 +19,13 @@ public class FavoriteAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.grid_view_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.favorite_item, parent, false);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        ImageView picture = view.findViewById(R.id.iv_image);
+        ImageView picture = view.findViewById(R.id.favorite_image);
         int index = cursor.getColumnIndex(MovieEntry.MOVIE_IMAGE);
         String image = cursor.getString(index);
         Picasso.with(context).load(image).into(picture);

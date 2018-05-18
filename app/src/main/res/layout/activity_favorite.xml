@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".FavoriteActivity">
 
-
     <GridView
         android:id="@+id/grid"
         android:layout_width="wrap_content"
@@ -17,5 +16,6 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:verticalSpacing="4dp" />
+
 
 </FrameLayout>

@@ -3,6 +3,7 @@
     <string name="show">show</string>
     <string name="detail_label">Movie Details</string>
     <string name="favorite_label">Favorite Movies</string>
+    <string name="favorite_movie_details">Favorite Movie Details</string>
     <string name="title">Miss Sloane</string>
     <string name="release_date">2016</string>
     <string name="overview">In the high-stakes world of political power-brokers, Elizabeth Sloane is the most sought after and formidable lobbyist in D.C. But when taking on the most powerful opponent of her career, she finds winning may come at too high a price.</string>

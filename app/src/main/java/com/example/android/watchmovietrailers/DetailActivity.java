@@ -10,16 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.watchmovietrailers.data.MovieContract;
 import com.example.android.watchmovietrailers.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
@@ -42,6 +41,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private static final int REVIEW_LOADER = 7;
     private static final int TRAILER_LOADER = 12;
+
+    private static final String TAG = DetailActivity.class.getSimpleName();
 
 
     @Override
@@ -89,6 +90,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mUserRate.setText(intent.getExtras().getString("Rate") + "/10");
         Picasso.with(this).load(intent.getExtras().getString("Image")).into(mImage);
 
+
         mHeart = findViewById(R.id.image_heart);
         mHeart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,10 +105,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     values.put(MovieEntry.MOVIE_DESCRIPTION, intent.getExtras().getString("Description") );
                     values.put(MovieEntry.MOVIE_USER_RATE, intent.getExtras().getString("Rate") + "/10" );
                     values.put(MovieEntry.MOVIE_RELEASE_DATE, intent.getExtras().getString("Date") );
-                    values.put(MovieEntry.MOVIE_IMAGE, intent.getExtras().getString("Image"));
+                    values.put(MovieEntry.MOVIE_IMAGE, intent.getExtras().getString("Image") );
                     values.put(MovieEntry.MOVIE_ID, intent.getExtras().getInt("ID"));
 
-                    getContentResolver().insert(MovieEntry.CONTENT_URI, values);
+                    Uri nou = getContentResolver().insert(MovieEntry.CONTENT_URI, values);
+                    Log.v(TAG, "New uri was inserted " + nou);
+
 
                 } else {
                     mHeart.setImageResource(R.drawable.black);
