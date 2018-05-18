@@ -87,7 +87,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mOverview.setText(intent.getExtras().getString("Description"));
         mReleaseDate.setText(intent.getExtras().getString("Date"));
         mUserRate.setText(intent.getExtras().getString("Rate") + "/10");
-
         Picasso.with(this).load(intent.getExtras().getString("Image")).into(mImage);
 
         mHeart = findViewById(R.id.image_heart);
@@ -101,11 +100,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
                     ContentValues values = new ContentValues();
                     values.put(MovieEntry.MOVIE_TITLE, intent.getExtras().getString("Title"));
-                    values.put(MovieEntry.MOVIE_DESCRIPTION,intent.getExtras().getString("Description") );
-                    values.put(MovieEntry.MOVIE_USER_RATE,intent.getExtras().getString("Rate") + "/10" );
-                    values.put(MovieEntry.MOVIE_RELEASE_DATE,intent.getExtras().getString("Date") );
+                    values.put(MovieEntry.MOVIE_DESCRIPTION, intent.getExtras().getString("Description") );
+                    values.put(MovieEntry.MOVIE_USER_RATE, intent.getExtras().getString("Rate") + "/10" );
+                    values.put(MovieEntry.MOVIE_RELEASE_DATE, intent.getExtras().getString("Date") );
                     values.put(MovieEntry.MOVIE_IMAGE, intent.getExtras().getString("Image"));
-                    values.put(MovieEntry.MOVIE_ID, intent.getExtras().getString("ID"));
+                    values.put(MovieEntry.MOVIE_ID, intent.getExtras().getInt("ID"));
 
                     getContentResolver().insert(MovieEntry.CONTENT_URI, values);
 

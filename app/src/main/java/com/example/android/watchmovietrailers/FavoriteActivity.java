@@ -21,6 +21,7 @@ public class FavoriteActivity extends AppCompatActivity implements LoaderManager
 
     private GridView mGridView;
     private FavoriteAdapter mAdapter;
+    private static final int LOADER_ID = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +31,15 @@ public class FavoriteActivity extends AppCompatActivity implements LoaderManager
         mGridView = findViewById(R.id.grid);
         mAdapter = new FavoriteAdapter(this, null);
         mGridView.setAdapter(mAdapter);
+
+        LoaderManager manager = getLoaderManager();
+        manager.initLoader(LOADER_ID, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String [] projection = new String[]{
+                MovieContract.MovieEntry.ID,
                 MovieContract.MovieEntry.MOVIE_IMAGE};
         return new CursorLoader(FavoriteActivity.this, MovieContract.MovieEntry.CONTENT_URI, projection, null, null, null );
     }

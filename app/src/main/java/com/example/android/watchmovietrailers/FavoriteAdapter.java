@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 
-import com.example.android.watchmovietrailers.data.MovieContract;
+import com.example.android.watchmovietrailers.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
 public class FavoriteAdapter extends CursorAdapter {
@@ -25,9 +25,9 @@ public class FavoriteAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        int index = cursor.getColumnIndexOrThrow(MovieContract.MovieEntry.MOVIE_IMAGE);
-        String image = cursor.getString(index);
         ImageView picture = view.findViewById(R.id.iv_image);
+        int index = cursor.getColumnIndex(MovieEntry.MOVIE_IMAGE);
+        String image = cursor.getString(index);
         Picasso.with(context).load(image).into(picture);
     }
 }
