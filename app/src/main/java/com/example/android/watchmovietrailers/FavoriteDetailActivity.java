@@ -67,7 +67,7 @@ public class FavoriteDetailActivity extends AppCompatActivity implements LoaderM
                 MovieEntry.MOVIE_IMAGE
         };
 
-        return new CursorLoader(this, mCurrentUri, projection, null, null, null);
+        return new CursorLoader(FavoriteDetailActivity.this, mCurrentUri, projection, null, null, null);
     }
 
     @Override
