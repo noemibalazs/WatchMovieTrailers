@@ -47,7 +47,7 @@ public class MovieProvider extends ContentProvider {
                     cursor = db.query(MovieEntry.MOVIE_TABLE, projection, selection, selectionArgs,  null, null, sortOrder);
                     break;
                 case MOVIE_ITEM:
-                    selection = MovieEntry.MOVIE_ID + "=?";
+                    selection = MovieEntry.ID + "=?";
                     selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                     cursor = db.query(MovieEntry.MOVIE_TABLE, projection, selection, selectionArgs, null,null, sortOrder);
                     break;
@@ -64,16 +64,19 @@ public class MovieProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
+        String table;
 
-       long id = 0;
         switch (match){
             case MOVIES:
-                id = db.insert(MovieEntry.MOVIE_TABLE, null, values);
+                table = MovieEntry.MOVIE_TABLE;
                 break;
             default:
                 throw  new IllegalArgumentException("Insertion is not supported for " + uri);
 
         }
+
+        long id = db.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
         getContext().getContentResolver().notifyChange(uri, null);
 
         return ContentUris.withAppendedId(uri, id);
@@ -94,7 +97,7 @@ public class MovieProvider extends ContentProvider {
             } return rowDeleted;
 
             case MOVIE_ITEM:
-                selection = MovieEntry.MOVIE_ID + "=?";
+                selection = MovieEntry.ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowDeleted = db.delete(MovieEntry.MOVIE_TABLE, selection, selectionArgs);
                 if (rowDeleted!=0){
@@ -119,7 +122,7 @@ public class MovieProvider extends ContentProvider {
                 } return updateRow;
 
             case MOVIE_ITEM:
-                selection = MovieEntry.MOVIE_ID + "=?";
+                selection = MovieEntry.ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 updateRow = db.update(MovieEntry.MOVIE_TABLE, values, selection, selectionArgs);
                 if (updateRow!=0){

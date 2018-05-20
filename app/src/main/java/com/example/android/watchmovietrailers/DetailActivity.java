@@ -117,7 +117,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     Toast.makeText(DetailActivity.this, "Dismiss", Toast.LENGTH_SHORT).show();
                     click = true;
 
-                    getContentResolver().delete(ContentUris.withAppendedId(MovieEntry.CONTENT_URI, intent.getExtras().getInt("ID")), null, null);
+                    int row = getContentResolver().delete(ContentUris.withAppendedId(MovieEntry.CONTENT_URI, intent.getExtras().getInt("ID")), null, null);
+                    Log.v(TAG, "Row is deleted " + row);
                 }
             }
         });

@@ -12,6 +12,7 @@
     <string name="search_settings">Search Settings</string>
     <string name="heart_picked_up">Movie added to favorites</string>
     <string name="heart_dismiss">Movie removed from favorites</string>
+    <string name="delete">Delete</string>
 
     <string name="detail_review">Reviews</string>
     <string name="detail_summary">Summary</string>

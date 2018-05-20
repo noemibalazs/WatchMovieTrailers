@@ -9,6 +9,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     private static final String MOVIE_DB = "movie.db";
     private static final int MOVIE_VERSION = 1;
+    private static final String PRAGMA_FOREIGN_KEYS_ON = "PRAGMA foreign_keys=ON; ";
 
     public MovieDbHelper(Context context) {
         super(context, MOVIE_DB, null, MOVIE_VERSION);
@@ -18,14 +19,19 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + MovieEntry.MOVIE_TABLE + " ("
-                + MovieEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + MovieEntry.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, "
                 + MovieEntry.MOVIE_TITLE + " TEXT NOT NULL, "
                 + MovieEntry.MOVIE_DESCRIPTION + " TEXT NOT NULL, "
                 + MovieEntry.MOVIE_RELEASE_DATE + " TEXT NOT NULL, "
                 + MovieEntry.MOVIE_USER_RATE + " TEXT NOT NULL, "
-                + MovieEntry.MOVIE_IMAGE + " TEXT NOT NULL, "
-                + MovieEntry.MOVIE_ID + " INTEGER NOT NULL );";
+                + MovieEntry.MOVIE_IMAGE + " TEXT NOT NULL ); ";
         db.execSQL(SQL_CREATE_MOVIE_TABLE);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.execSQL(PRAGMA_FOREIGN_KEYS_ON);
     }
 
     @Override

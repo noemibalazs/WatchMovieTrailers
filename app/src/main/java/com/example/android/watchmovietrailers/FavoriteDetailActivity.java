@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ public class FavoriteDetailActivity extends AppCompatActivity implements LoaderM
     private TextView mUserRate;
     private TextView mReleaseDate;
     private ImageView mPicture;
+
     private Uri mCurrentUri;
 
     private static final int LOADER_ID = 21;
@@ -47,11 +49,26 @@ public class FavoriteDetailActivity extends AppCompatActivity implements LoaderM
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        return true;
+    }
+
+    public void deleteMovie(){
+        getContentResolver().delete(mCurrentUri, null, null);
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home){
-            onBackPressed();
-            return true;
+        switch (id){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.favorite_delete:
+                deleteMovie();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -75,7 +92,8 @@ public class FavoriteDetailActivity extends AppCompatActivity implements LoaderM
         if (cursor == null || cursor.getCount()<1){
             return;
         }
-        if (cursor.moveToFirst()){
+
+        if (cursor.moveToFirst()) {
 
             int titleIndex = cursor.getColumnIndex(MovieEntry.MOVIE_TITLE);
             int descriptionIndex = cursor.getColumnIndexOrThrow(MovieEntry.MOVIE_DESCRIPTION);
@@ -96,6 +114,7 @@ public class FavoriteDetailActivity extends AppCompatActivity implements LoaderM
             Picasso.with(this).load(image).into(mPicture);
 
         }
+
     }
 
     @Override

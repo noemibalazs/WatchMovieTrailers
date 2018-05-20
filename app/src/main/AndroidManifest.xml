@@ -48,10 +48,9 @@
             android:authorities="com.example.android.watchmovietrailers"
             android:exported="false" />
 
-        <activity android:name=".FavoriteDetailActivity"
-            android:label="@string/favorite_movie_details">
-        </activity>
-
+        <activity
+            android:name=".FavoriteDetailActivity"
+            android:label="@string/favorite_movie_details"></activity>
     </application>
 
 </manifest>

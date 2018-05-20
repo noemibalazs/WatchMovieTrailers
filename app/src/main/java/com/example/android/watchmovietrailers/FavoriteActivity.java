@@ -36,8 +36,8 @@ public class FavoriteActivity extends AppCompatActivity implements LoaderManager
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(FavoriteActivity.this, FavoriteDetailActivity.class);
-                Uri uri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, id);
-                intent.setData(uri);
+                Uri currentUri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, id);
+                intent.setData(currentUri);
                 startActivity(intent);
             }
         });
