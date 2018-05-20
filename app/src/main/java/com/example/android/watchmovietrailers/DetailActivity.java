@@ -126,7 +126,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
 
