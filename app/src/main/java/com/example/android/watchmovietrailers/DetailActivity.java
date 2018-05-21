@@ -106,10 +106,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     values.put(MovieEntry.MOVIE_USER_RATE, intent.getExtras().getString("Rate") + "/10" );
                     values.put(MovieEntry.MOVIE_RELEASE_DATE, intent.getExtras().getString("Date") );
                     values.put(MovieEntry.MOVIE_IMAGE, intent.getExtras().getString("Image") );
-                    values.put(MovieEntry.MOVIE_ID, intent.getExtras().getInt("ID"));
+                    values.put(MovieEntry.ID, intent.getExtras().getInt("ID"));
 
-                    Uri nou = getContentResolver().insert(MovieEntry.CONTENT_URI, values);
-                    Log.v(TAG, "New uri was inserted " + nou);
+                    Uri newUri = getContentResolver().insert(MovieEntry.CONTENT_URI, values);
+                    Log.v(TAG, "New uri was inserted " + newUri);
 
 
                 } else {
@@ -138,7 +138,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                 .appendPath("reviews")
-                .appendQueryParameter("api_key", "key");
+                .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
 
         return new ReviewLoader(this, builder.toString());
 
@@ -153,7 +153,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                     .appendPath("videos")
-                    .appendQueryParameter("api_key", "key");
+                    .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
 
             return new TrailerLoader(this, builder.toString());
 
@@ -161,6 +161,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         return null;
 
     }
+
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {

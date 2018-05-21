@@ -4,8 +4,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-
-
 public final class MovieContract {
 
     public MovieContract(){}
@@ -29,7 +27,6 @@ public final class MovieContract {
         public static final String MOVIE_RELEASE_DATE = "release_date";
         public static final String MOVIE_USER_RATE= "rate";
         public static final String MOVIE_IMAGE = "image";
-        public static final String MOVIE_ID = "movie_id";
 
     }
 

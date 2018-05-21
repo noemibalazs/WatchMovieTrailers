@@ -128,6 +128,6 @@ public class QueryTrailers {
         }
 
         return trailers;
-
     }
+
 }

@@ -76,6 +76,7 @@ public class MovieProvider extends ContentProvider {
         }
 
         long id = db.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        Log.v(TAG, "New row was inserted " + id );
 
         getContext().getContentResolver().notifyChange(uri, null);
 
