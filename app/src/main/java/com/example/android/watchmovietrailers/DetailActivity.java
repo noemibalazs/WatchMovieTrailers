@@ -138,7 +138,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                 .appendPath("reviews")
-                .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
+                .appendQueryParameter("api_key", "key");
 
         return new ReviewLoader(this, builder.toString());
 
@@ -153,7 +153,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             builder.appendPath(String.valueOf(getIntent().getExtras().getInt("ID")))
                     .appendPath("videos")
-                    .appendQueryParameter("api_key", "e4ec57629fb398e143f46a5eddae08f8");
+                    .appendQueryParameter("api_key", "key");
 
             return new TrailerLoader(this, builder.toString());
 
